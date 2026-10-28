@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F7F4EE">
+  <title>デジタル作家名刺＆作品カタログ | 文芸同人 蒼穹舎</title>
+  <meta name="description" content="文芸サークル展示会用 NFC連動デジタル作家名刺＆作品カタログ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ① ファーストビュー：作家プロフィール（デジタル名刺） -->
+    <header id="author-profile" class="profile-card" aria-live="polite">
+      <div class="profile-header-visual">
+        <img
+          id="author-header-img"
+          class="header-bg-img"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          alt="作家ヘッダー背景"
+          fetchpriority="high"
+        >
+        <div class="header-overlay"></div>
+        <span class="nfc-badge">Author Card</span>
+      </div>
+
+      <div class="profile-body">
+        <div class="avatar-row">
+          <div class="avatar-wrapper">
+            <img
+              id="author-avatar-img"
+              class="avatar-img"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              alt="作家アイコン"
+            >
+          </div>
+        </div>
+
+        <div class="author-identity">
+          <p id="author-reading" class="author-reading"></p>
+          <h1 id="author-name" class="author-name">読み込み中...</h1>
+          <p id="author-tagline" class="author-tagline"></p>
+        </div>
+
+        <div id="author-bio-section" class="profile-section">
+          <h2 class="section-label"><span class="section-label-num">01</span>Profile<span class="section-label-ja">自己紹介</span></h2>
+          <p id="author-bio" class="profile-text"></p>
+        </div>
+
+        <div id="author-background-section" class="profile-section">
+          <h2 class="section-label"><span class="section-label-num">02</span>Note<span class="section-label-ja">執筆の背景・こだわり</span></h2>
+          <p id="author-background" class="profile-text"></p>
+        </div>
+
+        <div id="scroll-cta-wrap" class="scroll-cta-wrap">
+          <a href="#works-section" class="scroll-cta-link">
+            <span class="scroll-cta-text">▼ 執筆した作品を見る</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ② 作品一覧＆リアクションエリア -->
+    <main id="works-section" class="works-section">
+      <div class="section-heading-wrap">
+        <span class="section-sub-en">Works</span>
+        <h2 class="section-heading">執筆作品</h2>
+        <p class="section-lead">気になった作品へのリアクションや、<br>一言感想をぜひお寄せください。</p>
+      </div>
+
+      <div id="works-list" class="works-list">
+        <!-- app.js により作品カードが動的に描画されます -->
+      </div>
+    </main>
+
+    <!-- ③ フッター：他作家への切り替え＆サークル・部誌案内 -->
+    <footer class="app-footer">
+      <section class="other-authors-section" aria-labelledby="other-authors-heading">
+        <div class="section-heading-wrap compact">
+          <span class="section-sub-en">Other Authors</span>
+          <h2 id="other-authors-heading" class="section-heading">他の作家の名刺も見る</h2>
+        </div>
+        <div id="other-authors-grid" class="other-authors-grid">
+          <!-- app.js により作家切り替えカードが動的に描画されます -->
+        </div>
+      </section>
+
+      <section id="circle-info-section" class="circle-info-section" aria-labelledby="circle-info-heading">
+        <div class="circle-card">
+          <div class="circle-card-header">
+            <img
+              id="circle-logo-img"
+              class="circle-logo"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              alt="サークルロゴ"
+              loading="lazy"
+            >
+            <div class="circle-title-group">
+              <span id="circle-subtitle" class="circle-subtitle"></span>
+              <h2 id="circle-info-heading" class="circle-name"></h2>
+            </div>
+          </div>
+
+          <p id="circle-description" class="circle-description"></p>
+
+          <dl id="circle-meta-list" class="circle-meta-list">
+            <div id="circle-meta-book" class="circle-meta-item">
+              <dt>頒布部誌</dt>
+              <dd id="circle-book-title"></dd>
+            </div>
+            <div id="circle-meta-price" class="circle-meta-item">
+              <dt>頒布価格</dt>
+              <dd id="circle-price"></dd>
+            </div>
+            <div id="circle-meta-booth" class="circle-meta-item">
+              <dt>展示ブース</dt>
+              <dd id="circle-booth"></dd>
+            </div>
+          </dl>
+
+          <div id="circle-detail-actions" class="circle-detail-actions">
+            <button type="button" id="open-book-detail-btn" class="circle-detail-btn is-book-btn">
+              <span class="circle-detail-btn-sub">Anthology Detail</span>
+              <span class="circle-detail-btn-main">📖 部誌の詳細を見る</span>
+            </button>
+            <button type="button" id="open-circle-detail-btn" class="circle-detail-btn is-circle-btn">
+              <span class="circle-detail-btn-sub">About Us</span>
+              <span class="circle-detail-btn-main">🏛️ サークルの詳細を見る</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="copyright-note">
+          Digital Author Card &amp; Catalog
+        </p>
+      </section>
+    </footer>
+  </div>
+
+  <!-- ウェブ閲覧作品・全文読書モーダル (<dialog closedby="any">) -->
+  <dialog id="reader-dialog" class="reader-dialog" closedby="any" aria-labelledby="reader-dialog-title">
+    <div class="reader-dialog-inner">
+      <header class="reader-dialog-header">
+        <div class="reader-title-wrap">
+          <span id="reader-dialog-meta" class="reader-badge">Web Reading</span>
+          <h3 id="reader-dialog-title" class="reader-title">作品タイトル</h3>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="reader-close-btn" aria-label="閉じる">✕</button>
+        </form>
+      </header>
+      <div id="reader-dialog-body" class="reader-dialog-body">
+        <article id="reader-dialog-content" class="reader-content"></article>
+      </div>
+      <footer class="reader-dialog-footer">
+        <span id="reader-dialog-author" class="reader-author-signature"></span>
+        <form method="dialog">
+          <button type="submit" class="reader-close-secondary-btn">読み終わる（閉じる）</button>
+        </form>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- 部誌詳細・サークル詳細モーダル (<dialog closedby="any">) -->
+  <dialog id="info-dialog" class="reader-dialog info-dialog" closedby="any" aria-labelledby="info-dialog-title">
+    <div class="reader-dialog-inner">
+      <header class="reader-dialog-header">
+        <div class="reader-title-wrap">
+          <span id="info-dialog-badge" class="reader-badge">Detail</span>
+          <h3 id="info-dialog-title" class="reader-title">詳細案内</h3>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="reader-close-btn" aria-label="閉じる">✕</button>
+        </form>
+      </header>
+      <div id="info-dialog-body" class="reader-dialog-body info-dialog-body">
+        <!-- app.js により部誌詳細またはサークル詳細が描画されます -->
+      </div>
+      <footer class="reader-dialog-footer">
+        <span id="info-dialog-subfooter" class="reader-author-signature"></span>
+        <form method="dialog">
+          <button type="submit" class="reader-close-secondary-btn">閉じる</button>
+        </form>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- 送信完了トースト通知コンテナ -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
